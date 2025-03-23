@@ -1,17 +1,21 @@
-﻿namespace SoftwareTestingProject;
+﻿using System.IO.Compression;
+
+namespace SoftwareTestingProject;
 
 internal class Program
 {
     public const string TestDirectoryName = "NewCoverageData";
 
+    public static readonly string WorkingDirectory =
+        Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", ".."));
+
     public static void Main(string[] args)
     {
-        var testDataDirectoryPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "..",
-            TestDirectoryName));
+        Setup();
 
-        var testFiles = Directory.GetFiles(testDataDirectoryPath);
-        Array.Sort(testFiles);
-        foreach (var file in testFiles) ChangeTestResultTo(file, false);
+        // var testFiles = Directory.GetFiles(testDataDirectoryPath);
+        // Array.Sort(testFiles);
+        // foreach (var file in testFiles) ChangeTestResultTo(file, false);
     }
 
     private static void ChangeTestResultTo(string filePath, bool shouldPass = true)
@@ -43,5 +47,17 @@ internal class Program
 
             File.Move(filePath, newFileName);
         }
+    }
+
+    private static void Setup()
+    {
+        var zipFilePath = Path.GetFullPath(Path.Combine(WorkingDirectory, "CoverageData.zip"));
+        if (!File.Exists(zipFilePath)) throw new FileNotFoundException("CoverageData.zip file could not be found");
+
+        var testDataDirectoryPath = Path.GetFullPath(Path.Combine(WorkingDirectory, TestDirectoryName));
+        if (Directory.Exists(testDataDirectoryPath)) return;
+
+
+        ZipFile.ExtractToDirectory(zipFilePath, WorkingDirectory);
     }
 }
