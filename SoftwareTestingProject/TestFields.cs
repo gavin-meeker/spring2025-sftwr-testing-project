@@ -5,12 +5,18 @@ public class TestFields
     public TestFields()
     {
         ReadOverallTestResults();
+        CalculateAllMethodSBFLs();
     }
 
     public Dictionary<string, MethodResult> TestMethods { get; set; } = new();
 
     public int TotalFailingTests { get; set; }
     public int TotalPasssingTests { get; set; }
+
+    public void CalculateAllMethodSBFLs()
+    {
+        foreach (var method in TestMethods.Values) method.CalculateAllSBFLs(TotalPasssingTests, TotalFailingTests);
+    }
 
     private void ReadOverallTestResults()
     {
