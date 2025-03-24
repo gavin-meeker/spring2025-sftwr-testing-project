@@ -13,9 +13,17 @@ internal class Program
     {
         Setup();
 
-        // var testFiles = Directory.GetFiles(testDataDirectoryPath);
+        var testFields = new TestContainer();
+        Console.WriteLine($"Total Passing: {testFields.TotalPasssingTests}");
+        Console.WriteLine($"Total Failing: {testFields.TotalFailingTests}");
+        var taran = testFields.TestMethodContainer.GetSuspiciousMethods(SblfEnum.Tarantula);
+        foreach (var t in taran) Console.WriteLine($"Count: {t.suspicion} | Method: {t.methodName}");
+        Console.WriteLine(taran.Count);
+
+
+        // var testFiles = Directory.GetFiles(Path.GetFullPath(Path.Combine(WorkingDirectory, TestDirectoryName)));
         // Array.Sort(testFiles);
-        // foreach (var file in testFiles) ChangeTestResultTo(file, false);
+        // foreach (var file in testFiles) ChangeTestResultTo(file);
     }
 
     private static void ChangeTestResultTo(string filePath, bool shouldPass = true)
@@ -51,13 +59,13 @@ internal class Program
 
     private static void Setup()
     {
-        var zipFilePath = Path.GetFullPath(Path.Combine(WorkingDirectory, "CoverageData.zip"));
-        if (!File.Exists(zipFilePath)) throw new FileNotFoundException("CoverageData.zip file could not be found");
+        var pathToZipFile = Path.GetFullPath(Path.Combine(WorkingDirectory, "CoverageData.zip"));
+        if (!File.Exists(pathToZipFile)) throw new FileNotFoundException("CoverageData.zip file could not be found");
 
-        var testDataDirectoryPath = Path.GetFullPath(Path.Combine(WorkingDirectory, TestDirectoryName));
-        if (Directory.Exists(testDataDirectoryPath)) return;
+        var pathToTestDataDirectory = Path.GetFullPath(Path.Combine(WorkingDirectory, TestDirectoryName));
+        if (Directory.Exists(pathToTestDataDirectory)) return;
 
 
-        ZipFile.ExtractToDirectory(zipFilePath, WorkingDirectory);
+        ZipFile.ExtractToDirectory(pathToZipFile, WorkingDirectory);
     }
 }

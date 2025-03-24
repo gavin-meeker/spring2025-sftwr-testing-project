@@ -8,7 +8,7 @@ public class TestContainer
         TestMethodContainer.CalculateAllMethodSBFLs(TotalPasssingTests, TotalFailingTests);
     }
 
-    private TestMethodContainer TestMethodContainer { get; } = new();
+    public TestMethodContainer TestMethodContainer { get; } = new();
 
     public int TotalFailingTests { get; set; }
     public int TotalPasssingTests { get; set; }
