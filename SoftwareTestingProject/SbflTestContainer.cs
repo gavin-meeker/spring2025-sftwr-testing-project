@@ -1,8 +1,8 @@
 namespace SoftwareTestingProject;
 
-public class TestContainer
+public class SbflTestContainer
 {
-    public TestContainer()
+    public SbflTestContainer()
     {
         ReadOverallTestResults();
         TestMethodContainer.CalculateAllMethodSBFLs(TotalPasssingTests, TotalFailingTests);
@@ -12,6 +12,14 @@ public class TestContainer
 
     public int TotalFailingTests { get; set; }
     public int TotalPasssingTests { get; set; }
+
+    public void IncrementTotalTestCounts(bool isTestResultPassing)
+    {
+        if (isTestResultPassing)
+            TotalPasssingTests++;
+        else
+            TotalFailingTests++;
+    }
 
 
     private void ReadOverallTestResults()
