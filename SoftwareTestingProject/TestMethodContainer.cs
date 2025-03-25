@@ -5,6 +5,25 @@ public class TestMethodContainer
     private readonly Dictionary<string, MethodResult> _testMethods = new();
     private bool _ranSBFLs { get; set; }
 
+    public void PrintMethodResult(string methodName)
+    {
+        if (!_testMethods.ContainsKey(methodName))
+        {
+            Console.WriteLine($"Method {methodName} was not found.");
+            return;
+        }
+
+        var foundMethod = _testMethods[methodName];
+
+        Console.WriteLine($"Method: {methodName}");
+        Console.WriteLine($"{nameof(foundMethod.PassingTestCount)}: {foundMethod.PassingTestCount}");
+        Console.WriteLine($"{nameof(foundMethod.FailingTestCount)}: {foundMethod.FailingTestCount}");
+        Console.WriteLine($"{nameof(foundMethod.TarantulaResult)}: {foundMethod.TarantulaResult}");
+        Console.WriteLine($"{nameof(foundMethod.JaccardResult)}: {foundMethod.JaccardResult}");
+        Console.WriteLine($"{nameof(foundMethod.OchiaiResult)}: {foundMethod.OchiaiResult}");
+        Console.WriteLine($"{nameof(foundMethod.SbiResult)}: {foundMethod.SbiResult}");
+    }
+
     public List<(string methodName, decimal suspicion)> GetSuspiciousMethods(SblfEnum sblfEnum)
     {
         List<(string methodName, decimal suspicion)> suspiciousMethods = new();
