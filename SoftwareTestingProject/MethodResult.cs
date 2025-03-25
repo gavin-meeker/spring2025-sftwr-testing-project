@@ -11,9 +11,9 @@ public class MethodResult
 
     public void CalculateAllSBFLs(int totalPassingTests, int totalFailingTests)
     {
-        TarantulaResult = SBFLMethods.CalculateTarantula(this, totalPassingTests, totalFailingTests);
-        SbiResult = SBFLMethods.CalculateSbi(this);
-        JaccardResult = SBFLMethods.CalculateJaccard(this, totalFailingTests);
-        OchiaiResult = SBFLMethods.CalculateOchiai(this, totalFailingTests);
+        TarantulaResult = SbflMethods.CalculateTarantula(this, totalPassingTests, totalFailingTests);
+        SbiResult = SbflMethods.CalculateSbi(this);
+        JaccardResult = SbflMethods.CalculateJaccard(this, totalFailingTests);
+        OchiaiResult = SbflMethods.CalculateOchiai(this, totalFailingTests);
     }
 }

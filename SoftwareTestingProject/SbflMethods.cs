@@ -1,8 +1,8 @@
 namespace SoftwareTestingProject;
 
-public sealed class SBFLMethods
+public sealed class SbflMethods
 {
-    private SBFLMethods()
+    private SbflMethods()
     {
     }
 
