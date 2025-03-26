@@ -19,6 +19,6 @@ public class TestReader
         testContainer.IncrementTotalTestCounts(overallTestResultIsPassing);
 
         foreach (var line in fileLines.Skip(1))
-            TestMethodContainer.IncrementTestMethod(line, overallTestResultIsPassing);
+            testContainer.IncrementSpecificMethodCounts(line, overallTestResultIsPassing);
     }
 }

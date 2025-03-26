@@ -2,8 +2,13 @@ namespace SoftwareTestingProject;
 
 public class MethodResult
 {
-    public int PassingTestCount { get; set; }
-    public int FailingTestCount { get; set; }
+    public MethodResult(bool isTestPassing)
+    {
+        IncrementTestCounts(isTestPassing);
+    }
+
+    public int PassingTestCount { get; private set; }
+    public int FailingTestCount { get; private set; }
     public decimal TarantulaResult { get; private set; }
     public decimal SbiResult { get; private set; }
     public decimal JaccardResult { get; private set; }
@@ -15,5 +20,13 @@ public class MethodResult
         SbiResult = SbflMethods.CalculateSbi(this);
         JaccardResult = SbflMethods.CalculateJaccard(this, totalFailingTests);
         OchiaiResult = SbflMethods.CalculateOchiai(this, totalFailingTests);
+    }
+
+    public void IncrementTestCounts(bool isTestPassing)
+    {
+        if (isTestPassing)
+            PassingTestCount++;
+        else
+            FailingTestCount++;
     }
 }
