@@ -12,13 +12,22 @@ internal class Program
     public static void Main(string[] args)
     {
         Setup();
+        var testDataDirectory = Path.Combine(WorkingDirectory, "NewCoverageData");
 
-        var testFields = new TestContainer();
-        Console.WriteLine($"Total Passing: {testFields.TotalPasssingTests}");
-        Console.WriteLine($"Total Failing: {testFields.TotalFailingTests}");
-        var taran = testFields.TestMethodContainer.GetSuspiciousMethods(SblfEnum.Tarantula);
-        foreach (var t in taran) Console.WriteLine($"Count: {t.suspicion} | Method: {t.methodName}");
-        Console.WriteLine(taran.Count);
+        var testReader = new TestReader();
+
+        var sbflContainer =
+            testReader.ReadAllTestsFromDirectory(testDataDirectory);
+
+        sbflContainer.PerformTestAnalysis();
+
+        var suspiciousMethods = sbflContainer.GetAllSuspiciousMethods();
+
+        // Console.WriteLine($"Total Passing: {testFields.TotalPasssingTests}");
+        // Console.WriteLine($"Total Failing: {testFields.TotalFailingTests}");
+        // var taran = testFields.TestMethodContainer.GetSuspiciousMethods(SblfEnum.Tarantula);
+        // foreach (var t in taran) Console.WriteLine($"Count: {t.suspicion} | Method: {t.methodName}");
+        // Console.WriteLine(taran.Count);
 
 
         // var testFiles = Directory.GetFiles(Path.GetFullPath(Path.Combine(WorkingDirectory, TestDirectoryName)));
