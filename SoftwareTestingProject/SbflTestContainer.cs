@@ -3,7 +3,6 @@ namespace SoftwareTestingProject;
 public class SbflTestContainer
 {
     private readonly Dictionary<string, MethodResult> _testMethodDict = new();
-
     public int TotalFailingTests { get; set; }
     public int TotalPasssingTests { get; set; }
 
@@ -61,7 +60,7 @@ public class SbflTestContainer
 
     public void IncrementSpecificMethodCounts(string methodName, bool isTestResultPassing)
     {
-        if (!_testMethodDict.TryAdd(methodName, new MethodResult(isTestResultPassing)))
+        if (!_testMethodDict.TryAdd(methodName, new MethodResult(methodName, isTestResultPassing)))
             _testMethodDict[methodName].IncrementTestCounts(isTestResultPassing);
     }
 }

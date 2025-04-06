@@ -2,10 +2,13 @@ namespace SoftwareTestingProject;
 
 public class MethodResult
 {
-    public MethodResult(bool isTestPassing)
+    public MethodResult(string methodName, bool isTestPassing)
     {
+        MethodName = methodName;
         IncrementTestCounts(isTestPassing);
     }
+
+    public string MethodName { get; init; }
 
     public int PassingTestCount { get; private set; }
     public int FailingTestCount { get; private set; }
