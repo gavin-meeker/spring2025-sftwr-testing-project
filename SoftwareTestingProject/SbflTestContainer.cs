@@ -16,30 +16,22 @@ public class SbflTestContainer
 
     public List<SuspiciousMethod> GetAllSuspiciousMethods()
     {
-        List<SuspiciousMethod> suspiciousMethods = new();
+        List<SuspiciousMethod> result = new();
+        var filtered = from method in _testMethodDict
+            where method.Value.JaccardResult != 0 || method.Value.OchiaiResult != 0 || method.Value.SbiResult != 0 ||
+                  method.Value.TarantulaResult != 0
+            select method.Value;
 
-        foreach (var method in _testMethodDict)
-        {
-            if (method.Value.TarantulaResult != 0)
-                suspiciousMethods.Add(new SuspiciousMethod
-                {
-                    MethodName = method.Key, Formula = SblfEnum.Tarantula, Suspicion = method.Value.TarantulaResult
-                });
+        foreach (var method in filtered)
+            result.Add(new SuspiciousMethod
+            {
+                TotalOverallFailingTests = TotalFailingTests,
+                TotalOverallPasssingTests = TotalPasssingTests,
+                MethodResult = method
+            });
 
-            if (method.Value.SbiResult != 0)
-                suspiciousMethods.Add(new SuspiciousMethod
-                    { MethodName = method.Key, Formula = SblfEnum.Sbi, Suspicion = method.Value.SbiResult });
 
-            if (method.Value.JaccardResult != 0)
-                suspiciousMethods.Add(new SuspiciousMethod
-                    { MethodName = method.Key, Formula = SblfEnum.Jaccard, Suspicion = method.Value.JaccardResult });
-
-            if (method.Value.OchiaiResult != 0)
-                suspiciousMethods.Add(new SuspiciousMethod
-                    { MethodName = method.Key, Formula = SblfEnum.Ochiai, Suspicion = method.Value.OchiaiResult });
-        }
-
-        return suspiciousMethods;
+        return result;
     }
 
 
