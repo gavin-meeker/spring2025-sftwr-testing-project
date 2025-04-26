@@ -1,4 +1,6 @@
-﻿using System.IO.Compression;
+﻿using System.Globalization;
+using System.IO.Compression;
+using CsvHelper;
 
 namespace SoftwareTestingProject;
 
@@ -12,7 +14,10 @@ internal class Program
     public static void Main(string[] args)
     {
         Setup();
+
         var testDataDirectory = Path.Combine(WorkingDirectory, "NewCoverageData");
+
+        ChangeTestResultTo(Path.Combine(testDataDirectory, "1.txt"), false);
 
         var testReader = new TestReader();
 
@@ -22,20 +27,19 @@ internal class Program
         sbflContainer.PerformTestAnalysis();
 
         var suspiciousMethods = sbflContainer.GetAllSuspiciousMethods();
+        Console.WriteLine(suspiciousMethods.Count);
 
-        // Console.WriteLine($"Total Passing: {testFields.TotalPasssingTests}");
-        // Console.WriteLine($"Total Failing: {testFields.TotalFailingTests}");
-        // var taran = testFields.TestMethodContainer.GetSuspiciousMethods(SblfEnum.Tarantula);
-        // foreach (var t in taran) Console.WriteLine($"Count: {t.suspicion} | Method: {t.methodName}");
-        // Console.WriteLine(taran.Count);
+        var csvPath = Path.Combine(WorkingDirectory, "output.csv");
+        Console.WriteLine($"Writing to CSV file: {csvPath}");
 
-
-        // var testFiles = Directory.GetFiles(Path.GetFullPath(Path.Combine(WorkingDirectory, TestDirectoryName)));
-        // Array.Sort(testFiles);
-        // foreach (var file in testFiles) ChangeTestResultTo(file);
+        using (var writer = new StreamWriter(csvPath))
+        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        {
+            csv.WriteRecords(suspiciousMethods);
+        }
     }
 
-    private static void ChangeTestResultTo(string filePath, bool shouldPass = true)
+    private static void ChangeTestResultTo(string filePath, bool shouldPass)
     {
         var lines = File.ReadAllLines(filePath);
         var firstLine = lines[0];
@@ -43,7 +47,7 @@ internal class Program
         lines[0] = firstPartOfLine += shouldPass ? " true" : " false";
         File.WriteAllLines(filePath, lines);
 
-        RenameFile(filePath);
+        // RenameFile(filePath);
     }
 
     private static void RenameFile(string filePath)
