@@ -14,23 +14,29 @@ public class SbflTestContainer
             TotalFailingTests++;
     }
 
-    public List<(string methodName, SblfEnum formulae, decimal suspicion)> GetAllSuspiciousMethods()
+    public List<SuspiciousMethod> GetAllSuspiciousMethods()
     {
-        List<(string Key, SblfEnum Tarantula, decimal TarantulaResult)> suspiciousMethods = new();
+        List<SuspiciousMethod> suspiciousMethods = new();
 
         foreach (var method in _testMethodDict)
         {
             if (method.Value.TarantulaResult != 0)
-                suspiciousMethods.Add((method.Key, SblfEnum.Tarantula, method.Value.TarantulaResult));
+                suspiciousMethods.Add(new SuspiciousMethod
+                {
+                    MethodName = method.Key, Formula = SblfEnum.Tarantula, Suspicion = method.Value.TarantulaResult
+                });
 
             if (method.Value.SbiResult != 0)
-                suspiciousMethods.Add((method.Key, SblfEnum.Sbi, method.Value.TarantulaResult));
+                suspiciousMethods.Add(new SuspiciousMethod
+                    { MethodName = method.Key, Formula = SblfEnum.Sbi, Suspicion = method.Value.SbiResult });
 
             if (method.Value.JaccardResult != 0)
-                suspiciousMethods.Add((method.Key, SblfEnum.Jaccard, method.Value.TarantulaResult));
+                suspiciousMethods.Add(new SuspiciousMethod
+                    { MethodName = method.Key, Formula = SblfEnum.Jaccard, Suspicion = method.Value.JaccardResult });
 
             if (method.Value.OchiaiResult != 0)
-                suspiciousMethods.Add((method.Key, SblfEnum.Ochiai, method.Value.TarantulaResult));
+                suspiciousMethods.Add(new SuspiciousMethod
+                    { MethodName = method.Key, Formula = SblfEnum.Ochiai, Suspicion = method.Value.OchiaiResult });
         }
 
         return suspiciousMethods;
