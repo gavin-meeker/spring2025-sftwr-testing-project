@@ -18,6 +18,7 @@ internal class Program
         var testDataDirectory = Path.Combine(WorkingDirectory, "NewCoverageData");
 
         ChangeTestResultTo(Path.Combine(testDataDirectory, "1.txt"), false);
+        ChangeTestResultTo(Path.Combine(testDataDirectory, "2.txt"), false);
 
         var testReader = new TestReader();
 
@@ -30,7 +31,7 @@ internal class Program
 
         var suspiciousMethods = sbflContainer.GetAllSuspiciousMethods();
 
-        var csvPath = Path.Combine(WorkingDirectory, "output.csv");
+        var csvPath = Path.Combine(WorkingDirectory, "..", "output.csv");
         Console.WriteLine($"Writing to CSV file: {csvPath}");
 
         using (var writer = new StreamWriter(csvPath))
