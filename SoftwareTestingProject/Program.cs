@@ -9,7 +9,7 @@ internal class Program
     public const string TestDirectoryName = "NewCoverageData";
 
     public static readonly string WorkingDirectory =
-        Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", ".."));
+        Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "SoftwareTestingProject"));
 
     public static void Main(string[] args)
     {
@@ -21,13 +21,14 @@ internal class Program
 
         var testReader = new TestReader();
 
+        Console.WriteLine($"Reading all test data from: {testDataDirectory}");
         var sbflContainer =
             testReader.ReadAllTestsFromDirectory(testDataDirectory);
 
+        Console.WriteLine("Calculating all SBFL Formulea");
         sbflContainer.PerformTestAnalysis();
 
         var suspiciousMethods = sbflContainer.GetAllSuspiciousMethods();
-        Console.WriteLine(suspiciousMethods.Count);
 
         var csvPath = Path.Combine(WorkingDirectory, "output.csv");
         Console.WriteLine($"Writing to CSV file: {csvPath}");
